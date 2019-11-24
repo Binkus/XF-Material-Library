@@ -19,14 +19,24 @@ namespace XF.Material.Forms.UI
     /// <summary>
     /// A control that let users enter and edit a date.
     /// </summary>
-    public class MaterialDateField : MaterialTextField, IMaterialElementConfiguration
+    public class MaterialDateField : BaseMaterialInputView
     {
         private DateTime? _date;
 
         /// <summary>
         /// Initializes a new instance of <see cref="MaterialDateField"/>.
         /// </summary>
-        public MaterialDateField() : base()
+        public MaterialDateField() : base(new MaterialEntry()
+        {
+            Margin = new Thickness(12, 24, 12, 0),
+            FontFamily = Material.FontFamily.Body2,
+            FontSize = 16,
+            HorizontalOptions = LayoutOptions.FillAndExpand,
+            IsSpellCheckEnabled = false,
+            IsTextPredictionEnabled = false,
+            TextColor = Color.FromHex("#D0000000"),
+            VerticalOptions = LayoutOptions.FillAndExpand,
+        })
         {
             this.InputType = MaterialTextFieldInputType.Date;
             base.TrailingIcon = "xf_arrow_dropdown";
@@ -46,7 +56,7 @@ namespace XF.Material.Forms.UI
             set
             {
                 this._date = value;
-                base.Entry.Text = value != null ? value.Value.ToShortDateString() : string.Empty;
+                base.InputControl.Text = value != null ? value.Value.ToShortDateString() : string.Empty;
                 base.OnPropertyChanged(nameof(this.Date));
             }
         }
@@ -66,6 +76,38 @@ namespace XF.Material.Forms.UI
             Dialogs.Configurations.MaterialConfirmationDialogConfiguration configuration = MaterialConfirmationDialog.GetDialogConfiguration(this);
 
             this.Date = await XF.Material.Forms.UI.Dialogs.MaterialDatePicker.Show(title, confirmingText, dismissiveText, configuration);
+        }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// For internal use only.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public override void ElementChanged(bool created)
+        {
+            if (InputControl.VisualElement is MaterialEntry entry)
+            {
+                if (created)
+                {
+
+                    entry.PropertyChanged += this.Entry_PropertyChanged;
+                    entry.TextChanged += this.Entry_TextChanged;
+                    entry.SizeChanged += base.Entry_SizeChanged;
+                    entry.Focused += base.Entry_Focused;
+                    entry.Unfocused += this.Entry_Unfocused;
+                    entry.Completed += base.Entry_Completed;
+                }
+                else
+                {
+                    entry.PropertyChanged -= this.Entry_PropertyChanged;
+                    entry.TextChanged -= this.Entry_TextChanged;
+                    entry.SizeChanged -= base.Entry_SizeChanged;
+                    entry.Focused -= base.Entry_Focused;
+                    entry.Unfocused -= this.Entry_Unfocused;
+                    entry.Completed -= base.Entry_Completed;
+                }
+                base.ElementChanged(created);
+            }
         }
     }
 }

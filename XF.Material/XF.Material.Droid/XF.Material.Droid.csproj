@@ -90,6 +90,7 @@
     <Compile Include="Renderers\Internals\MaterialEditorRenderer.cs" />
     <Compile Include="Renderers\CorneredContentViewRenderer.cs" />
     <Compile Include="Renderers\CorneredContentViewDrawable.cs" />
+    <Compile Include="Renderers\Internals\MaterialTimePickerRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

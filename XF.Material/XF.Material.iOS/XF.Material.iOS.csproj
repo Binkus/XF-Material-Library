@@ -121,6 +121,7 @@
     <Compile Include="GestureRecognizers\MaterialRippleGestureRecognizer.cs" />
     <Compile Include="Renderers\Internals\MaterialEditorRenderer.cs" />
     <Compile Include="Renderers\CorneredContentViewRenderer.cs" />
+    <Compile Include="Renderers\Internals\MaterialTimePickerRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\xf_error%402x.png" />

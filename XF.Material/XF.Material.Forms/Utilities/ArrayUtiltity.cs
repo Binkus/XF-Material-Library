@@ -46,11 +46,25 @@ namespace XF.Material.Forms.Utilities
         /// <returns></returns>
         public static IList Subset(this IList array, params int[] indices)
         {
-            IList subset = (IList)Activator.CreateInstance(array.GetType());
-            for (int i = 0; i < indices.Length; i++)
+            IList subset = null;
+            var type = array.GetType();
+            if (type.IsArray)
             {
-                subset.Add(array[indices[i]]);
+                subset = Array.CreateInstance(type.GetElementType(), array.Count);
+                for (int i = 0; i < indices.Length; i++)
+                {
+                    subset[i] = array[indices[i]];
+                }
             }
+            else
+            {
+                subset = (IList)Activator.CreateInstance(type);
+                for (int i = 0; i < indices.Length; i++)
+                {
+                    subset.Add(array[indices[i]]);
+                }
+            }
+
             return subset;
         }
     }

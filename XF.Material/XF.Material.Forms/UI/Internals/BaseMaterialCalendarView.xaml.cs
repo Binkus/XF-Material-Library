@@ -289,14 +289,14 @@ namespace XF.Material.Forms.UI.Internals
         private void OnLabelClicked(object view)
         {
             CorneredContentView corneredContentView = (CorneredContentView)view;
-            if (this.selectedView == corneredContentView)
-            {
-                return;
-            }
-            else
-            {
-                //Let's change the selection
-            }
+            //if (this.selectedView == corneredContentView)
+            //{
+            //    return;
+            //}
+            //else
+            //{
+            //    //Let's change the selection
+            //}
 
             SelectionChanged?.Invoke(this, new CalendarSelectionChangedEventArgs(this.selectedView, corneredContentView));
         }
