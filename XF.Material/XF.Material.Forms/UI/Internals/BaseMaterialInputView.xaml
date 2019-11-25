@@ -89,7 +89,7 @@
                      HorizontalOptions="Center"
                      VerticalOptions="End"
                      WidthRequest="0"
-                     Color="{Binding UnderlineColor}" />
+                     />
             <material:MaterialIcon x:Name="trailingIcon"
                                    Grid.Row="0"
                                    Grid.Column="2"
