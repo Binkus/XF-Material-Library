@@ -46,15 +46,16 @@
                 </View.Triggers>
             </material:MaterialIcon>
             <material:MaterialLabel x:Name="placeholder"
+                                    x:FieldModifier="protected"
                                     Grid.Row="0"
                                     Grid.Column="1"
                                     Margin="12,20,12,0"
-                                    FontSize="{Binding Source={x:Reference root}, Path=InputControl.FontSize}"
                                     InputTransparent="True"
                                     Text="Placeholder"
                                     TextColor="#99000000"
                                     TypeScale="Body2"
                                     VerticalOptions="Start"
+                                    FontSize="16"
                                     VerticalTextAlignment="Center" />
             <ContentView x:Name="_inputContainer"
                          x:FieldModifier="protected"
