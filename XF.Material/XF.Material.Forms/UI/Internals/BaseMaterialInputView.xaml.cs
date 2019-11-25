@@ -1414,9 +1414,12 @@ namespace XF.Material.Forms.UI.Internals
 
             if (this.InputType == MaterialTextFieldInputType.Choice && !string.IsNullOrEmpty(text))
             {
-                var selectedChoice = this.GetSelectedChoice(_selectedIndicies[0]);
-                this.ChoiceSelected?.Invoke(this, new SelectedItemChangedEventArgs(selectedChoice));
-                this.ChoiceSelectedCommand?.Execute(selectedChoice);
+                if (_selectedIndicies.Count > 0)
+                {
+                    var selectedChoice = this.GetSelectedChoice(_selectedIndicies[0]);
+                    this.ChoiceSelected?.Invoke(this, new SelectedItemChangedEventArgs(selectedChoice));
+                    this.ChoiceSelectedCommand?.Execute(selectedChoice);
+                }
             }
             else if (this.InputType == MaterialTextFieldInputType.Choice && string.IsNullOrEmpty(text))
             {
