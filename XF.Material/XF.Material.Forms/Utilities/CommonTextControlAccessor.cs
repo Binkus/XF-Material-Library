@@ -211,7 +211,7 @@ namespace XF.Material.Forms.Utilities
                 }
                 else if (this.VisualElement is DatePicker datePicker)
                 {
-                    return datePicker.Date.ToString();
+                    return datePicker.Date.ToShortDateString();
                 }
                 else if(this.VisualElement is MaterialTimePicker matTimePicker)
                 {
