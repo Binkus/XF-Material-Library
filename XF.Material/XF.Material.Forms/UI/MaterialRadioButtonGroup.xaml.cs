@@ -152,6 +152,8 @@ namespace XF.Material.Forms.UI
         {
             if (isSelected)
             {
+                this.SelectedIndex = _selectedModel.Index;
+
                 if (_selectedModel == model)
                 {
                     return;
@@ -163,7 +165,6 @@ namespace XF.Material.Forms.UI
                 }
 
                 _selectedModel = model;
-                this.SelectedIndex = _selectedModel.Index;
             }
             else if (_selectedModel.Index == model.Index)
             {
