@@ -251,11 +251,12 @@ namespace XF.Material.Forms.Utilities
                         datePicker.Date = date;
                     }
                 }
-                else if (this.VisualElement is TimePicker timePicker)
+                else if (this.VisualElement is MaterialTimePicker timePicker)
                 {
-                    if (TimeSpan.TryParse(value, out TimeSpan time))
+                    if (DateTime.TryParse(value, out DateTime time))
                     {
-                        timePicker.Time = time;
+                        timePicker.Time = time.TimeOfDay;
+                        timePicker.Text = value;
                     }
                 }
                 else //Fallback
@@ -279,9 +280,9 @@ namespace XF.Material.Forms.Utilities
                 }
                 else //Fallback
                 {
-                    if (TimeSpan.TryParse(this.Text, out TimeSpan time))
+                    if (DateTime.TryParse(this.Text, out DateTime time))
                     {
-                        return time;
+                        return time.TimeOfDay;
                     }
                     else
                     {

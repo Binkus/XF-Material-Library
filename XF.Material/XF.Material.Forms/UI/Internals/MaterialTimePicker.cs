@@ -37,6 +37,13 @@ namespace XF.Material.Forms.UI.Internals
                 else
                     return "";
             }
+            set
+            {
+                if (DateTime.TryParse(value, out DateTime dateTime))
+                {
+                    NullableTime = dateTime.TimeOfDay;
+                }
+            }
         }
 
         public TimeSpan? NullableTime
