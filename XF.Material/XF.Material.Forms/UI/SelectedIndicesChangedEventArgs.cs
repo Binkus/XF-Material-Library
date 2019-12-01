@@ -15,4 +15,20 @@ namespace XF.Material.Forms.UI
             this.Indices = indices;
         }
     }
+
+    public class NamedGroupSelectedIndexChangedEventArgs : EventArgs
+    {
+        /// <summary>
+        /// Returns the indices of each selected choices.
+        /// </summary>
+        public IList<int> Indices { get; }
+
+        public string GroupName { get; }
+
+        public NamedGroupSelectedIndexChangedEventArgs(string groupName, IList<int> indices)
+        {
+            this.Indices = indices;
+            this.GroupName = groupName;
+        }
+    }
 }

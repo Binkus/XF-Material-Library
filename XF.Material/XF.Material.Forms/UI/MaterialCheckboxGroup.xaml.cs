@@ -19,6 +19,11 @@ namespace XF.Material.Forms.UI
     public partial class MaterialCheckboxGroup : BaseMaterialSelectionControlGroup
     {
         /// <summary>
+        /// Backing field for the bindable property <see cref="GroupName"/>.
+        /// </summary>
+        public static readonly BindableProperty GroupNameProperty = BindableProperty.Create(nameof(GroupName), typeof(string), typeof(MaterialCheckboxGroup), string.Empty, BindingMode.OneWay);
+
+        /// <summary>
         /// Backing field for the bindable property <see cref="SelectedIndices"/>.
         /// </summary>
         public static readonly BindableProperty SelectedIndicesProperty = BindableProperty.Create(nameof(SelectedIndices), typeof(IList<int>), typeof(MaterialCheckboxGroup), new List<int>(), BindingMode.TwoWay);
@@ -32,6 +37,11 @@ namespace XF.Material.Forms.UI
         /// Backing field for the bindable property <see cref="SelectedItemsChangedCommand"/>.
         /// </summary>
         public static readonly BindableProperty SelectedItemsChangedCommandProperty = BindableProperty.Create(nameof(SelectedItemsChangedCommand), typeof(Command<IList>), typeof(MaterialCheckboxGroup));
+
+        /// <summary>
+        /// Backing field for the bindable property <see cref="NamedGroupSelectedItemsChangedCommand"/>.
+        /// </summary>
+        public static readonly BindableProperty NamedGroupSelectedItemsChangedCommandProperty = BindableProperty.Create(nameof(NamedGroupSelectedItemsChangedCommand), typeof(Command<NamedGroupList>), typeof(MaterialCheckboxGroup));
 
 
         internal override ObservableCollection<MaterialSelectionControlModel> Models => selectionList.GetValue(BindableLayout.ItemsSourceProperty) as ObservableCollection<MaterialSelectionControlModel>;
@@ -60,6 +70,26 @@ namespace XF.Material.Forms.UI
         public event EventHandler<SelectedIndicesChangedEventArgs> SelectedIndicesChanged;
 
         /// <summary>
+        /// Raised when there is a change in the collection of selected items.
+        /// </summary>
+        public event EventHandler<SelectedItemsChangedEventArgs> SelectedItemsChanged;
+
+        /// <summary>
+        /// Raised when there is a change in the collection of selected items.
+        /// </summary>
+        public event EventHandler<NamedGroupSelectedItemsChangedEventArgs> NamedGroupSelectedItemsChanged;
+
+
+        /// <summary>
+        /// Gets or sets a name for this control.
+        /// </summary>
+        public string GroupName
+        {
+            get => (string)this.GetValue(GroupNameProperty);
+            set => this.SetValue(GroupNameProperty, value);
+        }
+
+        /// <summary>
         /// Gets or sets the indices that are selected.
         /// </summary>
         public IList<int> SelectedIndices
@@ -83,6 +113,15 @@ namespace XF.Material.Forms.UI
         public Command<IList> SelectedItemsChangedCommand
         {
             get => (Command<IList>)this.GetValue(SelectedItemsChangedCommandProperty);
+            set => this.SetValue(SelectedItemsChangedCommandProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the command that will execute when there is a change in the collection of selected indices.
+        /// </summary>
+        public Command<NamedGroupList> NamedGroupSelectedItemsChangedCommand
+        {
+            get => (Command<NamedGroupList>)this.GetValue(SelectedItemsChangedCommandProperty);
             set => this.SetValue(SelectedItemsChangedCommandProperty, value);
         }
 
@@ -141,12 +180,20 @@ namespace XF.Material.Forms.UI
         /// <param name="selectedIndices">The collection of new selected indices.</param>
         protected virtual void OnSelectedIndicesChanged(IList<int> selectedIndices)
         {
-            if (this.SelectedItemsChangedCommand != null)
+            if (this.SelectedItemsChangedCommand != null || this.SelectedItemsChanged != null)
             {
-                this.SelectedItemsChangedCommand.Execute(this.Choices.Subset(selectedIndices.ToArray()));
+                IList items = this.Choices.Subset(selectedIndices.ToArray());
+                this.SelectedItemsChangedCommand?.Execute(items);
+                this.NamedGroupSelectedItemsChangedCommand?.Execute(new NamedGroupList(this.GroupName, items));
+                this.SelectedItemsChanged?.Invoke(this, new SelectedItemsChangedEventArgs(items));
+                this.NamedGroupSelectedItemsChanged?.Invoke(this, new NamedGroupSelectedItemsChangedEventArgs(this.GroupName, items));
             }
-            this.SelectedIndicesChangedCommand?.Execute(selectedIndices.ToArray());
-            this.SelectedIndicesChanged?.Invoke(this, new SelectedIndicesChangedEventArgs(selectedIndices.ToArray()));
+            if (this.SelectedIndicesChangedCommand != null || this.SelectedIndicesChanged != null)
+            {
+                int[] indices = selectedIndices.ToArray();
+                this.SelectedIndicesChangedCommand?.Execute(indices);
+                this.SelectedIndicesChanged?.Invoke(this, new SelectedIndicesChangedEventArgs(indices));
+            }
         }
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
