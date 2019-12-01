@@ -141,9 +141,12 @@ namespace XF.Material.Forms.UI
         /// <param name="selectedIndices">The collection of new selected indices.</param>
         protected virtual void OnSelectedIndicesChanged(IList<int> selectedIndices)
         {
+            if (this.SelectedItemsChangedCommand != null)
+            {
+                this.SelectedItemsChangedCommand.Execute(this.Choices.Subset(selectedIndices.ToArray()));
+            }
             this.SelectedIndicesChangedCommand?.Execute(selectedIndices.ToArray());
             this.SelectedIndicesChanged?.Invoke(this, new SelectedIndicesChangedEventArgs(selectedIndices.ToArray()));
-            this.SelectedItemsChangedCommand?.Execute(this.Choices.Subset(selectedIndices.ToArray()));
         }
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
