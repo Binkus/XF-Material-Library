@@ -180,7 +180,8 @@ namespace XF.Material.Forms.UI
         /// <param name="selectedIndices">The collection of new selected indices.</param>
         protected virtual void OnSelectedIndicesChanged(IList<int> selectedIndices)
         {
-            if (this.SelectedItemsChangedCommand != null || this.SelectedItemsChanged != null)
+            if (this.SelectedItemsChangedCommand != null || this.SelectedItemsChanged != null
+                || this.NamedGroupSelectedItemsChangedCommand != null || this.NamedGroupSelectedItemsChanged != null)
             {
                 IList items = this.Choices.Subset(selectedIndices.ToArray());
                 this.SelectedItemsChangedCommand?.Execute(items);
