@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using XF.Material.Forms.UI.Internals;
+using XF.Material.Forms.Utilities;
 
 namespace XF.Material.Forms.UI
 {
@@ -26,6 +27,12 @@ namespace XF.Material.Forms.UI
         /// Backing field for the bindable property <see cref="SelectedIndicesChangedCommand"/>.
         /// </summary>
         public static readonly BindableProperty SelectedIndicesChangedCommandProperty = BindableProperty.Create(nameof(SelectedIndicesChangedCommand), typeof(Command<int[]>), typeof(MaterialCheckboxGroup));
+
+        /// <summary>
+        /// Backing field for the bindable property <see cref="SelectedItemsChangedCommand"/>.
+        /// </summary>
+        public static readonly BindableProperty SelectedItemsChangedCommandProperty = BindableProperty.Create(nameof(SelectedItemsChangedCommand), typeof(Command<IList>), typeof(MaterialCheckboxGroup));
+
 
         internal override ObservableCollection<MaterialSelectionControlModel> Models => selectionList.GetValue(BindableLayout.ItemsSourceProperty) as ObservableCollection<MaterialSelectionControlModel>;
 
@@ -68,6 +75,15 @@ namespace XF.Material.Forms.UI
         {
             get => (Command<int[]>)this.GetValue(SelectedIndicesChangedCommandProperty);
             set => this.SetValue(SelectedIndicesChangedCommandProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets the command that will execute when there is a change in the collection of selected indices.
+        /// </summary>
+        public Command<IList> SelectedItemsChangedCommand
+        {
+            get => (Command<IList>)this.GetValue(SelectedItemsChangedCommandProperty);
+            set => this.SetValue(SelectedItemsChangedCommandProperty, value);
         }
 
         protected override void CreateChoices()
@@ -127,6 +143,7 @@ namespace XF.Material.Forms.UI
         {
             this.SelectedIndicesChangedCommand?.Execute(selectedIndices.ToArray());
             this.SelectedIndicesChanged?.Invoke(this, new SelectedIndicesChangedEventArgs(selectedIndices.ToArray()));
+            this.SelectedItemsChangedCommand?.Execute(this.Choices.Subset(selectedIndices.ToArray()));
         }
 
         protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
