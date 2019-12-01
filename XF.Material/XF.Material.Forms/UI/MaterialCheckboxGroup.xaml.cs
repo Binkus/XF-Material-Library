@@ -121,8 +121,8 @@ namespace XF.Material.Forms.UI
         /// </summary>
         public Command<NamedGroupList> NamedGroupSelectedItemsChangedCommand
         {
-            get => (Command<NamedGroupList>)this.GetValue(SelectedItemsChangedCommandProperty);
-            set => this.SetValue(SelectedItemsChangedCommandProperty, value);
+            get => (Command<NamedGroupList>)this.GetValue(NamedGroupSelectedItemsChangedCommandProperty);
+            set => this.SetValue(NamedGroupSelectedItemsChangedCommandProperty, value);
         }
 
         protected override void CreateChoices()
