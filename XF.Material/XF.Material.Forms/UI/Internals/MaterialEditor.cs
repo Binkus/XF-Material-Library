@@ -9,9 +9,6 @@ namespace XF.Material.Forms.UI.Internals
     public class MaterialEditor : Editor
     {
         public static readonly BindableProperty TintColorProperty = BindableProperty.Create(nameof(TintColor), typeof(Color), typeof(MaterialEditor), Material.Color.Secondary);
-        internal MaterialEditor()
-        {
-        }
 
         public Color TintColor
         {

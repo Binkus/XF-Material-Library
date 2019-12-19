@@ -100,6 +100,8 @@ namespace XF.Material.Forms.UI.Internals
 
         public static readonly BindableProperty UnderlineColorProperty = BindableProperty.Create(nameof(UnderlineColor), typeof(Color), typeof(BaseMaterialInputView), Color.FromHex("#99000000"));
 
+        public static readonly BindableProperty IsMultiLineProperty = BindableProperty.Create(nameof(IsMultiLine), typeof(bool), typeof(BaseMaterialInputView), false);
+
         private const double AnimationDuration = 0.35;
         private readonly Easing _animationCurve = Easing.SinOut;
         private bool _counterEnabled;
@@ -508,6 +510,12 @@ namespace XF.Material.Forms.UI.Internals
         {
             get => (Color)this.GetValue(UnderlineColorProperty);
             set => this.SetValue(UnderlineColorProperty, value);
+        }
+
+        public bool IsMultiLine
+        {
+            get => (bool)this.GetValue(IsMultiLineProperty);
+            set => this.SetValue(IsMultiLineProperty, value);
         }
 
         /// <inheritdoc />
@@ -1184,6 +1192,11 @@ namespace XF.Material.Forms.UI.Internals
             // Hint: Will use this for MaterialTextArea
             if (inputType == MaterialTextFieldInputType.MultiLineText)
             {
+                this.IsMultiLine = true;
+            }
+
+            if(this.IsMultiLine)
+            {
                 this.InputControl.AutoSize = EditorAutoSizeOption.TextChanges;
                 this._autoSizingRow.Height = GridLength.Auto;
             }
@@ -1209,12 +1222,12 @@ namespace XF.Material.Forms.UI.Internals
             return !this.IsPickerInput(inputType) && !this.IsChoiceInput(inputType);
         }
 
-        private bool IsPickerInput(MaterialTextFieldInputType inputType)
+        public bool IsPickerInput(MaterialTextFieldInputType inputType)
         {
             return inputType == MaterialTextFieldInputType.Date || inputType == MaterialTextFieldInputType.Time;
         }
 
-        private bool IsChoiceInput(MaterialTextFieldInputType inputType)
+        public bool IsChoiceInput(MaterialTextFieldInputType inputType)
         {
             return inputType == MaterialTextFieldInputType.Choice || inputType == MaterialTextFieldInputType.MultiChoice;
         }
