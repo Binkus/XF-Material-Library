@@ -20,7 +20,7 @@ namespace XF.Material.Forms.UI.Internals
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BaseMaterialInputView : ContentView, IMaterialElementConfiguration
     {
-        internal CommonTextControlAccessor InputControl;
+        protected CommonTextControlAccessor InputControl;
 
         public static readonly BindableProperty AlwaysShowUnderlineProperty = BindableProperty.Create(nameof(AlwaysShowUnderline), typeof(bool), typeof(BaseMaterialInputView), false);
 
