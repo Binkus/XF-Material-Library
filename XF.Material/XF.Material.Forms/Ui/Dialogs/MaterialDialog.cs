@@ -103,7 +103,8 @@ namespace XF.Material.Forms.UI.Dialogs
             string dismissiveText = "Cancel",
             MaterialConfirmationDialogConfiguration configuration = null)
         {
-            return (int)await MaterialConfirmationDialog.ShowSelectChoiceAsync(title, choices, choiceBindingName, confirmingText, dismissiveText, configuration);
+            int[] choice = (int[])await MaterialConfirmationDialog.ShowSelectChoiceAsync(title, choices, choiceBindingName, confirmingText, dismissiveText, configuration);
+            return (int)choice[0];
         }
 
         public async Task<int> SelectChoiceAsync(
@@ -115,7 +116,8 @@ namespace XF.Material.Forms.UI.Dialogs
             string dismissiveText = "Cancel",
             MaterialConfirmationDialogConfiguration configuration = null)
         {
-            return (int)await MaterialConfirmationDialog.ShowSelectChoiceAsync(title, choices, selectedIndex, choiceBindingName, confirmingText, dismissiveText, configuration);
+            int[] choice = (int[])await MaterialConfirmationDialog.ShowSelectChoiceAsync(title, choices, selectedIndex, choiceBindingName, confirmingText, dismissiveText, configuration);
+            return (int)choice[0];
         }
 
         public async Task<int[]> SelectChoicesAsync(
