@@ -95,7 +95,7 @@ namespace XF.Material.Forms.UI.Dialogs
             return MaterialSimpleDialog.ShowAsync(title, actions, configuration);
         }
 
-        public async Task<int> SelectChoiceAsync(
+        public async Task<int?> SelectChoiceAsync(
             string title,
             IList choices,
             string choiceBindingName = null,
@@ -103,11 +103,19 @@ namespace XF.Material.Forms.UI.Dialogs
             string dismissiveText = "Cancel",
             MaterialConfirmationDialogConfiguration configuration = null)
         {
-            int[] choice = (int[])await MaterialConfirmationDialog.ShowSelectChoiceAsync(title, choices, choiceBindingName, confirmingText, dismissiveText, configuration);
-            return (int)choice[0];
+            var result = await MaterialConfirmationDialog.ShowSelectChoiceAsync(title, choices, choiceBindingName, confirmingText, dismissiveText, configuration);
+            if (result != null)
+            {
+                int[] choice = (int[])result;
+                return choice[0];
+            }
+            else
+            {
+                return null;
+            }
         }
 
-        public async Task<int> SelectChoiceAsync(
+        public async Task<int?> SelectChoiceAsync(
             string title,
             IList choices,
             int selectedIndex,
@@ -116,8 +124,16 @@ namespace XF.Material.Forms.UI.Dialogs
             string dismissiveText = "Cancel",
             MaterialConfirmationDialogConfiguration configuration = null)
         {
-            int[] choice = (int[])await MaterialConfirmationDialog.ShowSelectChoiceAsync(title, choices, selectedIndex, choiceBindingName, confirmingText, dismissiveText, configuration);
-            return (int)choice[0];
+            var result = await MaterialConfirmationDialog.ShowSelectChoiceAsync(title, choices, selectedIndex, choiceBindingName, confirmingText, dismissiveText, configuration);
+            if (result != null)
+            {
+                int[] choice = (int[])result;
+                return choice[0];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<int[]> SelectChoicesAsync(

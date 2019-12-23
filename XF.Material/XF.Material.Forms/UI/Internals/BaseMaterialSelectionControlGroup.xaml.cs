@@ -65,11 +65,6 @@ namespace XF.Material.Forms.UI.Internals
         public static readonly BindableProperty VerticalSpacingProperty = BindableProperty.Create(nameof(VerticalSpacing), typeof(double), typeof(BaseMaterialSelectionControlGroup), 0.0);
 
         /// <summary>
-        /// Backing field for the bindable property <see cref="SelectedIndices"/>.
-        /// </summary>
-        public static readonly BindableProperty SelectedIndicesProperty = BindableProperty.Create(nameof(SelectedIndices), typeof(IList<int>), typeof(MaterialCheckboxGroup), new List<int>(), BindingMode.TwoWay);
-
-        /// <summary>
         /// Backing field for the bindable property <see cref="SelectedIndicesChangedCommand"/>.
         /// </summary>
         public static readonly BindableProperty SelectedIndicesChangedCommandProperty = BindableProperty.Create(nameof(SelectedIndicesChangedCommand), typeof(Command<int[]>), typeof(MaterialCheckboxGroup));
@@ -97,8 +92,8 @@ namespace XF.Material.Forms.UI.Internals
         /// </summary>
         public string ChoicesBindingName
         {
-            get;
-            set;
+            get => (string)this.GetValue(ChoicesBindingNameProperty);
+            set => this.SetValue(ChoicesBindingNameProperty, value);
         }
 
         internal bool ShouldShowScrollbar
@@ -207,11 +202,11 @@ namespace XF.Material.Forms.UI.Internals
         /// <summary>
         /// Gets or sets the indices that are selected.
         /// </summary>
-        public IList<int> SelectedIndices
+        public ObservableCollection<int> SelectedIndices
         {
-            get => (IList<int>)this.GetValue(SelectedIndicesProperty);
-            set => this.SetValue(SelectedIndicesProperty, value);
-        }
+            get;
+            set;
+        } = new ObservableCollection<int>();
 
         /// <summary>
         /// Gets or sets the command that will execute when there is a change in the collection of selected indices.
@@ -249,6 +244,12 @@ namespace XF.Material.Forms.UI.Internals
         {
             var models = new ObservableCollection<MaterialSelectionControlModel>();
             var listType = this.Choices[0].GetType();
+
+            if(string.IsNullOrEmpty(this.ChoicesBindingName) && listType != typeof(string))
+            {
+                System.Diagnostics.Debug.WriteLine($"Can't bind choices of type {listType.Name} withhout setting {nameof(this.ChoicesBindingName)}");
+                return;
+            }
 
             for (var i = 0; i < this.Choices.Count; i++)
             {
@@ -321,6 +322,9 @@ namespace XF.Material.Forms.UI.Internals
 
             switch (propertyName)
             {
+                //case nameof(this.ChoicesBindingName) when this.Choices != null && this.Choices.Count > 0:
+                //    this.CreateChoices();
+                //    break;
                 case nameof(this.Choices) when this.Choices != null && this.Choices.Count > 0:
                     this.CreateChoices();
                     break;
@@ -341,8 +345,8 @@ namespace XF.Material.Forms.UI.Internals
             {
                 case null:
                     throw new InvalidOperationException("The property 'SelectedIndices' was assigned with a null value.");
-                case Array _:
-                    throw new InvalidOperationException("The property 'SelectedIndices' is 'System.Array', please use a collection that has no fixed size");
+                //case Array _:
+                //    throw new InvalidOperationException("The property 'SelectedIndices' is 'System.Array', please use a collection that has no fixed size");
                 default:
                     {
                         if (!this.SelectedIndices.Any())

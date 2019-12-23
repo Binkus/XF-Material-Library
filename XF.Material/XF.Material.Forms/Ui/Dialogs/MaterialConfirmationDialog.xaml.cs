@@ -115,11 +115,11 @@ namespace XF.Material.Forms.UI.Dialogs
             var radioButtonGroup = new MaterialRadioButtonGroup
             {
                 HorizontalSpacing = 20,
-                SelectedIndices = new List<int> { selectedIndex },
+                SelectedIndices = new System.Collections.ObjectModel.ObservableCollection<int> { selectedIndex },
                 ChoicesBindingName = choiceBindingName
             };
             radioButtonGroup.Choices = choices ?? throw new ArgumentNullException(nameof(choices));
-            radioButtonGroup.SelectedIndices = new List<int> { selectedIndex };
+            radioButtonGroup.SelectedIndices = new System.Collections.ObjectModel.ObservableCollection<int> { selectedIndex };
 
             var dialog = new MaterialConfirmationDialog(configuration)
             {
@@ -188,8 +188,9 @@ namespace XF.Material.Forms.UI.Dialogs
                 HorizontalSpacing = 20,
                 ChoicesBindingName = choiceBindingName
             };
+            checkboxGroup.SelectedIndices = new System.Collections.ObjectModel.ObservableCollection<int>(selectedIndices);
             checkboxGroup.Choices = choices ?? throw new ArgumentNullException(nameof(choices));
-            checkboxGroup.SelectedIndices = selectedIndices;
+            
 
             var dialog = new MaterialConfirmationDialog(configuration)
             {
@@ -234,12 +235,12 @@ namespace XF.Material.Forms.UI.Dialogs
 
         protected override void OnBackButtonDismissed()
         {
-            this.InputTaskCompletionSource?.SetResult(_isMultiChoice ? null : -1 as object);
+            this.InputTaskCompletionSource?.SetResult(_isMultiChoice ? null : new int[] { -1 });
         }
 
         protected override bool OnBackgroundClicked()
         {
-            this.InputTaskCompletionSource?.SetResult(_isMultiChoice ? null : -1 as object);
+            this.InputTaskCompletionSource?.SetResult(_isMultiChoice ? null : new int[] { -1 });
 
             return base.OnBackgroundClicked();
         }
@@ -308,7 +309,7 @@ namespace XF.Material.Forms.UI.Dialogs
         private async void NegativeButton_Clicked(object sender, EventArgs e)
         {
             await this.DismissAsync();
-            this.InputTaskCompletionSource.SetResult(_isMultiChoice ? null : -1 as object);
+            this.InputTaskCompletionSource.SetResult(_isMultiChoice ? null : new int[] { -1 });
             _controlGroup?.SelectedIndices.Clear();
         }
 

@@ -58,8 +58,29 @@ namespace XF.Material.Forms.UI
             this.Choices = choices;
         }
 
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            switch (propertyName)
+            {
+                case nameof(this.Choices):
+                    {
+                        this.SelectedIndices.Remove(-1);
+                        if (this.SelectedIndices.Any())
+                        {
+                            var selectedItemModel = this.Models?.ElementAt(this.SelectedIndices[0]);
+                            selectedItemModel.IsSelected = true;
+                        }
+                    }
+                    break;
+            }
+        }
+
         protected override void GroupedControlSelected(bool isSelected, int index)
         {
+            this.SelectedIndices.Remove(-1);
+
             if (isSelected && !this.SelectedIndices.Contains(index))
             {
                 if (this.SelectedIndices.Any())
@@ -75,12 +96,22 @@ namespace XF.Material.Forms.UI
                     }
                 }
 
-                this.SelectedIndices.Add(index);
+                // Clear out any other indicies as a radio is a single choice
+                //this.SelectedIndices.Clear();
+
+                if (this.SelectedIndices.Count == 0)
+                {
+                    this.SelectedIndices.Add(index);
+                }
+                else
+                {
+                    this.SelectedIndices[0] = index;
+                }
                 this.OnSelectedIndicesChanged(this.SelectedIndices);
             }
             else if (!isSelected && this.SelectedIndices.Contains(index))
             {
-                this.SelectedIndices.Remove(index);
+                this.SelectedIndices[0] = -1;
                 this.OnSelectedIndicesChanged(this.SelectedIndices);
             }
         }

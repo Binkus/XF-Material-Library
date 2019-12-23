@@ -58,5 +58,26 @@ namespace XF.Material.Forms.UI
         {
             this.Choices = choices;
         }
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+
+            switch (propertyName)
+            {
+                case nameof(this.Choices):
+                    {
+                        if (this.SelectedIndices.Any())
+                        {
+                            foreach (var index in this.SelectedIndices)
+                            {
+                                var selectedItemModel = this.Models?.ElementAt(index);
+                                selectedItemModel.IsSelected = true;
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
     }
 }

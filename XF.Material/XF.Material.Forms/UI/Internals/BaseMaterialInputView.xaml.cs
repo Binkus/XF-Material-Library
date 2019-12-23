@@ -25,6 +25,8 @@ namespace XF.Material.Forms.UI.Internals
         public static readonly BindableProperty AlwaysShowUnderlineProperty = BindableProperty.Create(nameof(AlwaysShowUnderline), typeof(bool), typeof(BaseMaterialInputView), false);
 
         public static new readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(BaseMaterialInputView), Color.FromHex("#DCDCDC"));
+        
+        public static readonly BindableProperty SelectedChoiceIndicesProperty = BindableProperty.Create(nameof(SelectedChoiceIndices), typeof(IList), typeof(BaseMaterialInputView));
 
         public static readonly BindableProperty ChoiceSelectedCommandProperty = BindableProperty.Create(nameof(ChoiceSelectedCommand), typeof(ICommand), typeof(BaseMaterialInputView));
 
@@ -171,6 +173,16 @@ namespace XF.Material.Forms.UI.Internals
         {
             get => (IList)this.GetValue(ChoicesProperty);
             set => this.SetValue(ChoicesProperty, value);
+        }
+
+        
+        /// <summary>
+        /// Gets or sets the selected indicies of the objects which the user will choose from.
+        /// </summary>
+        public IList SelectedChoiceIndices
+        {
+            get => (IList)this.GetValue(SelectedChoiceIndicesProperty);
+            set => this.SetValue(SelectedChoiceIndicesProperty, value);
         }
 
         /// <summary>
@@ -1098,6 +1110,20 @@ namespace XF.Material.Forms.UI.Internals
             }
         }
 
+        private void OnMultiLineChanged()
+        {
+            if (this.IsMultiLine)
+            {
+                this.InputControl.AutoSize = EditorAutoSizeOption.TextChanges;
+                this._autoSizingRow.Height = GridLength.Auto;
+            }
+            else
+            {
+                this.InputControl.AutoSize = EditorAutoSizeOption.Disabled;
+                this._autoSizingRow.Height = 56;
+            }
+        }
+
         protected void OnFloatingPlaceholderEnabledChanged(bool isEnabled)
         {
             double marginTopVariation = Device.RuntimePlatform == Device.iOS ? 18 : 20;
@@ -1340,14 +1366,20 @@ namespace XF.Material.Forms.UI.Internals
             {
                 if (_selectedIndicies.Count > 0)
                 {
-                    int choiceIndicies = await MaterialDialog.Instance.SelectChoiceAsync(title, this.Choices, _selectedIndicies[0], this.ChoicesBindingName, confirmingText, dismissiveText, configuration);
-                    result.Add(choiceIndicies);
+                    int? choiceIndicies = await MaterialDialog.Instance.SelectChoiceAsync(title, this.Choices, _selectedIndicies[0], this.ChoicesBindingName, confirmingText, dismissiveText, configuration);
+                    if (choiceIndicies.HasValue)
+                    {
+                        result.Add(choiceIndicies.Value);
+                    }
                 }
                 else
                 {
-                    int choiceIndicies = await MaterialDialog.Instance.SelectChoiceAsync(title, this.Choices, this.ChoicesBindingName, confirmingText, dismissiveText, configuration);
+                    int? choiceIndicies = await MaterialDialog.Instance.SelectChoiceAsync(title, this.Choices, this.ChoicesBindingName, confirmingText, dismissiveText, configuration);
 
-                    result.Add(choiceIndicies);
+                    if (choiceIndicies.HasValue)
+                    {
+                        result.Add(choiceIndicies.Value);
+                    }
                 }
 
                 if (result.Count > 0)
@@ -1530,8 +1562,31 @@ namespace XF.Material.Forms.UI.Internals
                 { nameof(this.IsTextPredictionEnabled), () => this.OnKeyboardFlagsChanged(this.IsAutoCapitalizationEnabled, this.IsSpellCheckEnabled, this.IsTextPredictionEnabled) },
                 { nameof(this.IsAutoCapitalizationEnabled), () => this.OnKeyboardFlagsChanged(this.IsAutoCapitalizationEnabled, this.IsSpellCheckEnabled, this.IsTextPredictionEnabled) },
                 { nameof(this.TextFontSize), () => this.OnTextFontSizeChanged(this.TextFontSize) },
-                { nameof(this.ErrorText), () => this.OnErrorTextChanged() }
+                { nameof(this.ErrorText), () => this.OnErrorTextChanged() },
+                { nameof(this.IsMultiLine), () => this.OnMultiLineChanged() },
+                { nameof(this.SelectedChoiceIndices), () => this.OnSelectedChoiceIndicesChanged() }
             };
+        }
+
+        private void OnSelectedChoiceIndicesChanged()
+        {
+            if (this.SelectedChoiceIndices == null)
+            {
+                return;
+            }
+
+            //var collectionType = this.SelectedChoiceIndices.GetType();
+            //var elementType = collectionType.GetElementType();
+            //if(elementType != typeof(int))
+            //{
+            //    Debug.WriteLine($"{nameof(this.SelectedChoiceIndices)} must be a colection of int");
+            //    throw new InvalidOperationException($"{nameof(this.SelectedChoiceIndices)} must be a colection of int");
+            //}
+
+            foreach (int index in this.SelectedChoiceIndices)
+            {
+                this._selectedIndicies.Add(index);
+            }
         }
 
         private void UpdateCounter()

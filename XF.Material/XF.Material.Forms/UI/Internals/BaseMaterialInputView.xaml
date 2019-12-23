@@ -98,7 +98,7 @@
                                    HeightRequest="24"
                                    IsVisible="False"
                                    Source="xf_arrow_dropdown"
-                                   VerticalOptions="Start"
+                                   VerticalOptions="Center"
                                    WidthRequest="24" />
             <material:MaterialLabel x:Name="helper"
                                     Grid.Row="1"
