@@ -20,6 +20,11 @@ namespace XF.Material.Forms.UI.Internals
         internal ObservableCollection<MaterialSelectionControlModel> Models => selectionList.GetValue(BindableLayout.ItemsSourceProperty) as ObservableCollection<MaterialSelectionControlModel>;
 
         /// <summary>
+        /// Backing field for the bindable property <see cref="PreselectedIndices"/>.
+        /// </summary>
+        public static readonly BindableProperty PreselectedIndicesProperty = BindableProperty.Create(nameof(PreselectedIndices), typeof(IList), typeof(BaseMaterialSelectionControlGroup), null, BindingMode.OneWay);
+
+        /// <summary>
         /// Backing field for the bindable property <see cref="GroupName"/>.
         /// </summary>
         public static readonly BindableProperty GroupNameProperty = BindableProperty.Create(nameof(GroupName), typeof(string), typeof(MaterialCheckboxGroup), string.Empty, BindingMode.OneWay);
@@ -235,6 +240,24 @@ namespace XF.Material.Forms.UI.Internals
             set => this.SetValue(NamedGroupSelectedItemsChangedCommandProperty, value);
         }
 
+        /// <summary>
+        /// A list of integers that should be displayed as selected when the control is first displayed
+        /// </summary>
+        public IList PreselectedIndices
+        {
+            get => (IList)this.GetValue(PreselectedIndicesProperty);
+            set
+            {
+                var enumerable = (IEnumerable<int>)value;
+                if (value != null)
+                {
+
+                    this.SelectedIndices = new ObservableCollection<int>(enumerable);
+                }
+                this.SetValue(PreselectedIndicesProperty, value);
+            }
+        }
+
         protected BaseMaterialSelectionControlGroup()
         {
             this.InitializeComponent();
@@ -289,6 +312,11 @@ namespace XF.Material.Forms.UI.Internals
                     VerticalSpacing = this.VerticalSpacing
                 };
 
+                if(this.PreselectedIndices != null)
+                {
+                    model.IsSelected = this.PreselectedIndices.Contains(i1);
+                }
+
                 models.Add(model);
             }
 
@@ -325,6 +353,12 @@ namespace XF.Material.Forms.UI.Internals
                 //case nameof(this.ChoicesBindingName) when this.Choices != null && this.Choices.Count > 0:
                 //    this.CreateChoices();
                 //    break;
+                case nameof(this.PreselectedIndices) when this.Models != null && this.Models.Count > 0:
+                    foreach (int index in this.PreselectedIndices)
+                    {
+                        this.Models.ElementAt(index).IsSelected = true;
+                    }
+                    break;
                 case nameof(this.Choices) when this.Choices != null && this.Choices.Count > 0:
                     this.CreateChoices();
                     break;
