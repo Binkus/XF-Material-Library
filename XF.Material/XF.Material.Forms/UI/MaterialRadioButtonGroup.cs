@@ -115,5 +115,13 @@ namespace XF.Material.Forms.UI
                 this.OnSelectedIndicesChanged(this.SelectedIndices);
             }
         }
+
+        public void SetSelection(int selectedIndex)
+        {
+            this.SelectedIndices.Remove(-1);
+            this.GroupedControlSelected(true, selectedIndex);
+            var selectedItemModel = this.Models?.ElementAt(selectedIndex);
+            selectedItemModel.IsSelected = true;
+        }
     }
 }
