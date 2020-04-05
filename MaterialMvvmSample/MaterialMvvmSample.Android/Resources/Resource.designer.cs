@@ -15,7 +15,7 @@ namespace MaterialMvvmSample.Droid
 {
 	
 	
-	[System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Android.Build.Tasks", "1.0.0.0")]
+	[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Android.Build.Tasks", "1.0.0.0")]
 	public partial class Resource
 	{
 		
@@ -8016,6 +8016,7 @@ namespace MaterialMvvmSample.Droid
 			global::XF.Material.Droid.Resource.Styleable.View_paddingEnd = global::MaterialMvvmSample.Droid.Resource.Styleable.View_paddingEnd;
 			global::XF.Material.Droid.Resource.Styleable.View_paddingStart = global::MaterialMvvmSample.Droid.Resource.Styleable.View_paddingStart;
 			global::XF.Material.Droid.Resource.Styleable.View_theme = global::MaterialMvvmSample.Droid.Resource.Styleable.View_theme;
+			global::XF.Material.Droid.Resource.Xml.xamarin_essentials_fileprovider_file_paths = global::MaterialMvvmSample.Droid.Resource.Xml.xamarin_essentials_fileprovider_file_paths;
 		}
 		
 		public partial class Animation
