@@ -4,7 +4,7 @@ using System.Linq;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.Support.V4.View;
+using AndroidX.AppCompat.View;
 using Android.Views;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;

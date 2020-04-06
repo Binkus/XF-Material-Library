@@ -2,7 +2,7 @@
 using Android.Content;
 using Android.Graphics.Drawables;
 using Android.Runtime;
-using Android.Support.V4.Content;
+using AndroidX.AppCompat.Content;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
@@ -13,6 +13,7 @@ using XF.Material.Droid.Renderers.Internals;
 using XF.Material.Forms.UI.Internals;
 using static Android.Text.TextUtils;
 using static Android.Widget.TextView;
+using AndroidX.Core.Content;
 
 [assembly: ExportRenderer(typeof(MaterialEditor), typeof(MaterialEditorRenderer))]
 namespace XF.Material.Droid.Renderers.Internals

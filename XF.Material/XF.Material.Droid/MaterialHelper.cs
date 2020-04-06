@@ -3,13 +3,13 @@ using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Android.Support.V4.Content;
-using Android.Support.V4.Graphics;
-using Android.Support.V4.Graphics.Drawable;
-using Android.Support.V4.View;
 using Android.Util;
 using Android.Views.InputMethods;
 using Android.Widget;
+using AndroidX.Core.Content;
+using AndroidX.Core.Graphics;
+using AndroidX.Core.Graphics.Drawable;
+using AndroidX.Core.View;
 using System;
 using Xamarin.Forms.Platform.Android;
 
