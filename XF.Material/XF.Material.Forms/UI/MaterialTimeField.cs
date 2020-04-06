@@ -24,6 +24,7 @@ namespace XF.Material.Forms.UI
             VerticalOptions = LayoutOptions.FillAndExpand
         })
         {
+            this.InputType = MaterialTextFieldInputType.Time;
         }
 
         protected override async Task OnPartcipatingInNonUserInteractiveInput()
