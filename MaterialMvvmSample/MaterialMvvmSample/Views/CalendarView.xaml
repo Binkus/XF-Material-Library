@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<local:BaseCalendarView x:Class="MaterialMvvmSample.Views.CalendarView"
+                    xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:local="clr-namespace:MaterialMvvmSample.Views"
+                    xmlns:matd="clr-namespace:XF.Material.Forms.UI.Dialogs;assembly=XF.Material.Forms"
+                    xmlns:matdc="clr-namespace:XF.Material.Forms.UI.Dialogs.Configurations;assembly=XF.Material.Forms"
+                    xmlns:material="clr-namespace:XF.Material.Forms.UI;assembly=XF.Material.Forms"
+                    xmlns:internals="clr-namespace:XF.Material.Forms.UI.Internals;assembly=XF.Material.Forms"
+                    x:Name="Root"
+                    Title="Material Calendar"
+                    material:MaterialNavigationPage.AppBarColor="#2c3e50"
+                    material:MaterialNavigationPage.AppBarTitleTextAlignment="Start"
+                    material:MaterialNavigationPage.AppBarTitleTextFontFamily="{StaticResource FontFamily.RobotoMedium}"
+                    material:MaterialNavigationPage.AppBarTitleTextFontSize="14"
+                    material:MaterialNavigationPage.StatusBarColor="#1B3147">
+    <StackLayout Padding="32,16"
+                 HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="CenterAndExpand">
+        <material:MaterialTimeField Placeholder="Enter your date of birth" />
+      <material:MaterialDateField Placeholder="Enter your date of birth" />
+
+        <material:MaterialCard CornerRadius="2"
+                               Elevation="1"
+                               HeightRequest="512"
+                               WidthRequest="328"
+                               HorizontalOptions="FillAndExpand"
+                               Padding="0">
+            <StackLayout Orientation="Vertical"
+                         Padding="0"
+                         Margin="0,0,0,0"
+                         Spacing="0">
+
+                <internals:BaseMaterialCalendarView Padding="0" Margin="0"></internals:BaseMaterialCalendarView>
+              <Grid
+                      Margin="0,20,8,0"
+                      ColumnSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="52" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </StackLayout>
+        </material:MaterialCard>
+
+      
+    </StackLayout>
+</local:BaseCalendarView>

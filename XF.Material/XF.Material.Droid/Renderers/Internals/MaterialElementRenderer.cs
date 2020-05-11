@@ -5,7 +5,7 @@ using XF.Material.Droid.Renderers.Internals;
 using XF.Material.Forms.UI;
 using XF.Material.Forms.UI.Internals;
 
-[assembly: ExportRenderer(typeof(MaterialTextField), typeof(MaterialElementRenderer))]
+[assembly: ExportRenderer(typeof(BaseMaterialInputView), typeof(MaterialElementRenderer))]
 [assembly: ExportRenderer(typeof(MaterialSlider), typeof(MaterialElementRenderer))]
 namespace XF.Material.Droid.Renderers.Internals
 {

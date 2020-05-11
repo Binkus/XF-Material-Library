@@ -10,11 +10,29 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using XF.Material.Forms.Models;
+using XF.Material.Forms.Utilities;
 
 namespace MaterialMvvmSample.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
+        public string SomeProp
+        {
+            get
+            {
+                return someProp.ToShortTimeSafe();
+            }
+
+            set
+            {
+                var spanParsed = DateTime.TryParse(value, out DateTime span);
+                if (spanParsed)
+                {
+                    this.Set(ref someProp, span.TimeOfDay);
+                }
+            }
+        }
+
         private readonly IJobDialogService _dialogService;
 
         public MainViewModel(IJobDialogService dialogService)
@@ -96,7 +114,7 @@ namespace MaterialMvvmSample.ViewModels
             "San Miguel Corporation",
             "YNGEN Holdings Inc.",
             "ERNI Development Center Philippines, Inc., Bern, Switzerland"
-        }; 
+        };
 
         public ICommand JobSelectedCommand => new Command<string>(async (s) => await this.ViewItemSelected(s));
 
@@ -135,6 +153,8 @@ namespace MaterialMvvmSample.ViewModels
         }
 
         private List<int> _selectedFilters;
+        private TimeSpan someProp = TimeSpan.FromHours(3);
+
         public List<int> SelectedFilters
         {
             get => _selectedFilters;
@@ -146,29 +166,29 @@ namespace MaterialMvvmSample.ViewModels
             switch (s.Index)
             {
                 case 0:
-                {
-                    var result = await _dialogService.AddNewJob();
-
-                    if (this.Models.Any(m => m.Title == result))
                     {
-                        await _dialogService.AlertExistingJob(result);
-                    }
-                    else if (!string.IsNullOrEmpty(result))
-                    {
-                        this.Models.Where(m => m.IsNew).ForEach(m => m.IsNew = false);
+                        var result = await _dialogService.AddNewJob();
 
-                        var model = new TestModel
+                        if (this.Models.Any(m => m.Title == result))
                         {
-                            Title = result,
-                            Id = Guid.NewGuid().ToString("N"),
-                            IsNew = true
-                        };
+                            await _dialogService.AlertExistingJob(result);
+                        }
+                        else if (!string.IsNullOrEmpty(result))
+                        {
+                            this.Models.Where(m => m.IsNew).ForEach(m => m.IsNew = false);
 
-                        this.Models.Add(model);
+                            var model = new TestModel
+                            {
+                                Title = result,
+                                Id = Guid.NewGuid().ToString("N"),
+                                IsNew = true
+                            };
+
+                            this.Models.Add(model);
+                        }
+
+                        break;
                     }
-
-                    break;
-                }
                 case 1:
                     this.Models = new ObservableCollection<TestModel>(this.Models.OrderBy(m => m.Title));
                     break;
@@ -192,35 +212,35 @@ namespace MaterialMvvmSample.ViewModels
             switch (i.Index)
             {
                 case 0:
-                {
-                    if (model != null)
                     {
-                        var result = await _dialogService.EditJob(model.Title);
-
-                        if (!string.IsNullOrEmpty(result))
+                        if (model != null)
                         {
-                            model.Title = result;
-                        }
-                    }
+                            var result = await _dialogService.EditJob(model.Title);
 
-                    break;
-                }
+                            if (!string.IsNullOrEmpty(result))
+                            {
+                                model.Title = result;
+                            }
+                        }
+
+                        break;
+                    }
                 case 1:
-                {
-                    if (model != null)
                     {
-                        var confirmed = await _dialogService.DeleteJob(model.Title);
-
-                        if (confirmed == true)
+                        if (model != null)
                         {
-                            this.Models.Remove(model);
+                            var confirmed = await _dialogService.DeleteJob(model.Title);
 
-                            await _dialogService.JobDeleted();
+                            if (confirmed == true)
+                            {
+                                this.Models.Remove(model);
+
+                                await _dialogService.JobDeleted();
+                            }
                         }
-                    }
 
-                    break;
-                }
+                        break;
+                    }
             }
         }
     }
