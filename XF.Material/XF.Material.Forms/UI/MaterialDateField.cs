@@ -34,10 +34,10 @@ namespace XF.Material.Forms.UI
             HorizontalOptions = LayoutOptions.FillAndExpand,
             IsSpellCheckEnabled = false,
             IsTextPredictionEnabled = false,
-            TextColor = Color.FromHex("#D0000000"),
             VerticalOptions = LayoutOptions.FillAndExpand,
         })
         {
+	        base.TextColor = Color.FromHex("#D0000000");
             this.InputType = MaterialTextFieldInputType.Date;
             base.TrailingIcon = "xf_arrow_dropdown";
             //base.entry.SetBinding(MaterialTextField.TextProperty, "Date", BindingMode.OneWay);

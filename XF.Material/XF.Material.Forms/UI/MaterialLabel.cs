@@ -1,10 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 using XF.Material.Forms.Resources.Typography;
 
 namespace XF.Material.Forms.UI
 {
+	[DesignTimeVisible(true)]
     public class MaterialLabel : Label
     {
         public const string MaterialLineHeightPropertyName = "MaterialLineHeight";

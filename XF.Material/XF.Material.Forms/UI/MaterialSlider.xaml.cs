@@ -11,6 +11,7 @@ namespace XF.Material.Forms.UI
     /// <summary>
     /// A control that allow users to make selections from a range of values.
     /// </summary>
+    [DesignTimeVisible(true)]
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MaterialSlider : ContentView, IMaterialElementConfiguration
     {

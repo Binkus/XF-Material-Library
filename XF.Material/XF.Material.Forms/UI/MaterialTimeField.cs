@@ -20,10 +20,10 @@ namespace XF.Material.Forms.UI
             FontFamily = Material.FontFamily.Body2,
             FontSize = 16,
             HorizontalOptions = LayoutOptions.FillAndExpand,
-            TextColor = Color.FromHex("#D0000000"),
             VerticalOptions = LayoutOptions.FillAndExpand
         })
         {
+	        base.TextColor = Color.FromHex("#D0000000");
             this.InputType = MaterialTextFieldInputType.Time;
         }
 

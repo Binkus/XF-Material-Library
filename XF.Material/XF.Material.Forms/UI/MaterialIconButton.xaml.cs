@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -10,6 +11,7 @@ using XF.Material.Forms.Resources;
 namespace XF.Material.Forms.UI
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
+    [DesignTimeVisible(true)]
     public partial class MaterialIconButton : ContentView, IMaterialButtonControl, IMaterialTintableControl
     {
         public new static readonly BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(MaterialButton), Material.Color.Secondary);
@@ -41,10 +43,17 @@ namespace XF.Material.Forms.UI
         public MaterialIconButton()
         {
             this.InitializeComponent();
+
+            if (DesignMode.IsDesignModeEnabled)
+            {
+	            return;
+            }
+
             this.SetDynamicResource(WidthRequestProperty, MaterialConstants.MATERIAL_BUTTON_HEIGHT);
             this.SetDynamicResource(HeightRequestProperty, MaterialConstants.MATERIAL_BUTTON_HEIGHT);
 
             _button.Command = new Command(() => this.OnButtonClicked(true));
+
             _propertyChangeActions = new Dictionary<string, Action>
             {
                 { nameof(this.BorderColor), () => this.OnBorderColorChanged(this.BorderColor) },

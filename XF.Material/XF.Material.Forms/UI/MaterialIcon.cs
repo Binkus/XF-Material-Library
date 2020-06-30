@@ -1,10 +1,12 @@
-﻿using Xamarin.Forms;
+﻿using System.ComponentModel;
+using Xamarin.Forms;
 
 namespace XF.Material.Forms.UI
 {
     /// <summary>
     /// A view that shows an image icon that can be tinted.
     /// </summary>
+    [DesignTimeVisible(true)]
     public class MaterialIcon : Image, IMaterialTintableControl
     {
         /// <summary>

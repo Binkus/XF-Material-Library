@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.ComponentModel;
+using Xamarin.Forms;
 
 namespace XF.Material.Forms.UI.Internals
 {
@@ -6,6 +7,7 @@ namespace XF.Material.Forms.UI.Internals
     /// <summary>
     /// Used for rendering the <see cref="T:Xamarin.Forms.Editor" /> control in <see cref="T:XF.Material.Forms.UI.MaterialTextArea" />.
     /// </summary>
+    [DesignTimeVisible(true)]
     public class MaterialEditor : Editor
     {
         public static readonly BindableProperty TintColorProperty = BindableProperty.Create(nameof(TintColor), typeof(Color), typeof(MaterialEditor), Material.Color.Secondary);

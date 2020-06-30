@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -9,6 +10,7 @@ namespace XF.Material.Forms.UI
     /// <summary>
     /// A container that display content and actions on a single topic.
     /// </summary>
+    [DesignTimeVisible(true)]
     public class MaterialCard : Frame
     {
         /// <summary>

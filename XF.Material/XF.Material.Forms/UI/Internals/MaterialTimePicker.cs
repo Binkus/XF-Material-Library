@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace XF.Material.Forms.UI.Internals
 {
-    public class MaterialTimePicker : Xamarin.Forms.TimePicker
+	public class MaterialTimePicker : Xamarin.Forms.TimePicker
     {
         public static readonly BindableProperty TintColorProperty = BindableProperty.Create(nameof(TintColor), typeof(Color), typeof(MaterialTimePicker), Material.Color.Secondary);
 
