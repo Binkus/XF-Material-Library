@@ -1,4 +1,5 @@
-﻿using XF.Material.Forms.UI.Internals;
+﻿using System.ComponentModel;
+using XF.Material.Forms.UI.Internals;
 
 namespace XF.Material.Forms.UI
 {
@@ -6,6 +7,7 @@ namespace XF.Material.Forms.UI
     /// <summary>
     /// A control that allow users to select or deselect a single choice.
     /// </summary>
+    [DesignTimeVisible(true)]
     public class MaterialCheckbox : BaseMaterialSelectionControl
     {
         /// <summary>

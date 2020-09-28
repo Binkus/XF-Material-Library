@@ -13,6 +13,7 @@ namespace XF.Material.Forms.UI
     /// <summary>
     /// A control that allow users to select a single choice on a temporary surface.
     /// </summary>
+    [DesignTimeVisible(true)]
     public class MaterialMenuButton : MaterialIconButton
     {
         /// <summary>

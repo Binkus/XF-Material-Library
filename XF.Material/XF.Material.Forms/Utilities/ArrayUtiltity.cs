@@ -61,7 +61,9 @@ namespace XF.Material.Forms.Utilities
                 subset = (IList)Activator.CreateInstance(type);
                 for (int i = 0; i < indices.Length; i++)
                 {
-                    subset.Add(array[indices[i]]);
+                    int arrayIndex = indices[i];
+                    object value = array[arrayIndex];
+                    subset.Add(value);
                 }
             }
 

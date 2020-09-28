@@ -8,6 +8,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using XF.Material.Forms.UI.Dialogs.Configurations;
+using XF.Material.Forms.UI.Internals;
 
 namespace XF.Material.Forms.UI.Dialogs
 {
@@ -19,13 +20,11 @@ namespace XF.Material.Forms.UI.Dialogs
         public static readonly BindableProperty DialogDismissiveTextProperty = BindableProperty.Create("DialogDismissiveText", typeof(string), typeof(MaterialConfirmationDialog), "Cancel");
         public static readonly BindableProperty DialogTitleProperty = BindableProperty.Create("DialogTitle", typeof(string), typeof(MaterialConfirmationDialog), "Select an item");
 
-        private MaterialCheckboxGroup _checkboxGroup;
+        private BaseMaterialSelectionControlGroup _controlGroup;
 
         private bool _isMultiChoice;
 
         private MaterialConfirmationDialogConfiguration _preferredConfig;
-
-        private MaterialRadioButtonGroup _radioButtonGroup;
 
         internal MaterialConfirmationDialog(MaterialConfirmationDialogConfiguration configuration)
         {
@@ -89,23 +88,23 @@ namespace XF.Material.Forms.UI.Dialogs
             var dialog = new MaterialConfirmationDialog(configuration)
             {
                 InputTaskCompletionSource = new TaskCompletionSource<object>(),
-                _radioButtonGroup = radioButtonGroup
+                _controlGroup = radioButtonGroup
             };
 
             if (dialog._preferredConfig != null)
             {
-                dialog._radioButtonGroup.SelectedColor = dialog._preferredConfig.ControlSelectedColor;
-                dialog._radioButtonGroup.UnselectedColor = dialog._preferredConfig.ControlUnselectedColor;
-                dialog._radioButtonGroup.FontFamily = dialog._preferredConfig.TextFontFamily;
-                dialog._radioButtonGroup.TextColor = dialog._preferredConfig.TextColor;
+                dialog._controlGroup.SelectedColor = dialog._preferredConfig.ControlSelectedColor;
+                dialog._controlGroup.UnselectedColor = dialog._preferredConfig.ControlUnselectedColor;
+                dialog._controlGroup.FontFamily = dialog._preferredConfig.TextFontFamily;
+                dialog._controlGroup.TextColor = dialog._preferredConfig.TextColor;
             }
 
-            dialog._radioButtonGroup.ShouldShowScrollbar = true;
+            dialog._controlGroup.ShouldShowScrollbar = true;
             dialog.DialogTitle.Text = !string.IsNullOrEmpty(title) ? title : throw new ArgumentNullException(nameof(title));
             dialog.PositiveButton.IsEnabled = false;
             dialog.PositiveButton.Text = confirmingText.ToUpper();
             dialog.NegativeButton.Text = dismissiveText.ToUpper();
-            dialog.container.Content = dialog._radioButtonGroup;
+            dialog.container.Content = dialog._controlGroup;
             await dialog.ShowAsync();
 
             return await dialog.InputTaskCompletionSource.Task;
@@ -116,29 +115,29 @@ namespace XF.Material.Forms.UI.Dialogs
             var radioButtonGroup = new MaterialRadioButtonGroup
             {
                 HorizontalSpacing = 20,
-                SelectedIndex = selectedIndex,
+                SelectedIndices = new System.Collections.ObjectModel.ObservableCollection<int> { selectedIndex },
                 ChoicesBindingName = choiceBindingName
             };
             radioButtonGroup.Choices = choices ?? throw new ArgumentNullException(nameof(choices));
-            radioButtonGroup.SelectedIndex = selectedIndex;
+            radioButtonGroup.SelectedIndices = new System.Collections.ObjectModel.ObservableCollection<int> { selectedIndex };
 
             var dialog = new MaterialConfirmationDialog(configuration)
             {
                 InputTaskCompletionSource = new TaskCompletionSource<object>(),
-                _radioButtonGroup = radioButtonGroup
+                _controlGroup = radioButtonGroup
             };
 
             if (dialog._preferredConfig != null)
             {
-                dialog._radioButtonGroup.SelectedColor = dialog._preferredConfig.ControlSelectedColor;
-                dialog._radioButtonGroup.UnselectedColor = dialog._preferredConfig.ControlUnselectedColor;
-                dialog._radioButtonGroup.FontFamily = dialog._preferredConfig.TextFontFamily;
-                dialog._radioButtonGroup.TextColor = dialog._preferredConfig.TextColor;
+                dialog._controlGroup.SelectedColor = dialog._preferredConfig.ControlSelectedColor;
+                dialog._controlGroup.UnselectedColor = dialog._preferredConfig.ControlUnselectedColor;
+                dialog._controlGroup.FontFamily = dialog._preferredConfig.TextFontFamily;
+                dialog._controlGroup.TextColor = dialog._preferredConfig.TextColor;
             }
 
-            dialog._radioButtonGroup.ShouldShowScrollbar = true;
+            dialog._controlGroup.ShouldShowScrollbar = true;
             dialog.DialogTitle.Text = !string.IsNullOrEmpty(title) ? title : throw new ArgumentNullException(nameof(title));
-            dialog.container.Content = dialog._radioButtonGroup;
+            dialog.container.Content = dialog._controlGroup;
             dialog.PositiveButton.IsEnabled = true;
             dialog.PositiveButton.Text = confirmingText.ToUpper();
             dialog.NegativeButton.Text = dismissiveText.ToUpper();
@@ -159,21 +158,21 @@ namespace XF.Material.Forms.UI.Dialogs
             var dialog = new MaterialConfirmationDialog(configuration)
             {
                 InputTaskCompletionSource = new TaskCompletionSource<object>(),
-                _checkboxGroup = checkboxGroup
+                _controlGroup = checkboxGroup
             };
 
             if (dialog._preferredConfig != null)
             {
-                dialog._checkboxGroup.SelectedColor = dialog._preferredConfig.ControlSelectedColor;
-                dialog._checkboxGroup.UnselectedColor = dialog._preferredConfig.ControlUnselectedColor;
-                dialog._checkboxGroup.FontFamily = dialog._preferredConfig.TextFontFamily;
-                dialog._checkboxGroup.TextColor = dialog._preferredConfig.TextColor;
+                dialog._controlGroup.SelectedColor = dialog._preferredConfig.ControlSelectedColor;
+                dialog._controlGroup.UnselectedColor = dialog._preferredConfig.ControlUnselectedColor;
+                dialog._controlGroup.FontFamily = dialog._preferredConfig.TextFontFamily;
+                dialog._controlGroup.TextColor = dialog._preferredConfig.TextColor;
             }
 
-            dialog._checkboxGroup.ShouldShowScrollbar = true;
+            dialog._controlGroup.ShouldShowScrollbar = true;
             dialog._isMultiChoice = true;
             dialog.DialogTitle.Text = !string.IsNullOrEmpty(title) ? title : throw new ArgumentNullException(nameof(title));
-            dialog.container.Content = dialog._checkboxGroup;
+            dialog.container.Content = dialog._controlGroup;
             dialog.PositiveButton.IsEnabled = false;
             dialog.PositiveButton.Text = confirmingText.ToUpper();
             dialog.NegativeButton.Text = dismissiveText.ToUpper();
@@ -189,27 +188,28 @@ namespace XF.Material.Forms.UI.Dialogs
                 HorizontalSpacing = 20,
                 ChoicesBindingName = choiceBindingName
             };
+            checkboxGroup.SelectedIndices = new System.Collections.ObjectModel.ObservableCollection<int>(selectedIndices);
             checkboxGroup.Choices = choices ?? throw new ArgumentNullException(nameof(choices));
-            checkboxGroup.SelectedIndices = selectedIndices;
+            
 
             var dialog = new MaterialConfirmationDialog(configuration)
             {
                 InputTaskCompletionSource = new TaskCompletionSource<object>(),
-                _checkboxGroup = checkboxGroup
+                _controlGroup = checkboxGroup
             };
 
             if (dialog._preferredConfig != null)
             {
-                dialog._checkboxGroup.SelectedColor = dialog._preferredConfig.ControlSelectedColor;
-                dialog._checkboxGroup.UnselectedColor = dialog._preferredConfig.ControlUnselectedColor;
-                dialog._checkboxGroup.FontFamily = dialog._preferredConfig.TextFontFamily;
-                dialog._checkboxGroup.TextColor = dialog._preferredConfig.TextColor;
+                dialog._controlGroup.SelectedColor = dialog._preferredConfig.ControlSelectedColor;
+                dialog._controlGroup.UnselectedColor = dialog._preferredConfig.ControlUnselectedColor;
+                dialog._controlGroup.FontFamily = dialog._preferredConfig.TextFontFamily;
+                dialog._controlGroup.TextColor = dialog._preferredConfig.TextColor;
             }
 
-            dialog._checkboxGroup.ShouldShowScrollbar = true;
+            dialog._controlGroup.ShouldShowScrollbar = true;
             dialog._isMultiChoice = true;
             dialog.DialogTitle.Text = !string.IsNullOrEmpty(title) ? title : throw new ArgumentNullException(nameof(title));
-            dialog.container.Content = dialog._checkboxGroup;
+            dialog.container.Content = dialog._controlGroup;
             dialog.PositiveButton.IsEnabled = true;
             dialog.PositiveButton.Text = confirmingText.ToUpper();
             dialog.NegativeButton.Text = dismissiveText.ToUpper();
@@ -222,13 +222,9 @@ namespace XF.Material.Forms.UI.Dialogs
         {
             base.OnAppearing();
 
-            if (_radioButtonGroup?.Choices != null && _radioButtonGroup.Choices.Count > 0)
+            if (_controlGroup?.Choices != null && _controlGroup.Choices.Count > 0)
             {
-                _radioButtonGroup.SelectedIndexChanged += this.DialogActionList_SelectedIndexChanged;
-            }
-            else if (_checkboxGroup?.Choices != null && _checkboxGroup.Choices.Count > 0)
-            {
-                _checkboxGroup.SelectedIndicesChanged += this.CheckboxGroup_SelectedIndicesChanged;
+                _controlGroup.SelectedIndicesChanged += this.CheckboxGroup_SelectedIndicesChanged;
             }
 
             PositiveButton.Clicked += this.PositiveButton_Clicked;
@@ -239,12 +235,12 @@ namespace XF.Material.Forms.UI.Dialogs
 
         protected override void OnBackButtonDismissed()
         {
-            this.InputTaskCompletionSource?.SetResult(_isMultiChoice ? null : -1 as object);
+            this.InputTaskCompletionSource?.SetResult(_isMultiChoice ? null : new int[] { -1 });
         }
 
         protected override bool OnBackgroundClicked()
         {
-            this.InputTaskCompletionSource?.SetResult(_isMultiChoice ? null : -1 as object);
+            this.InputTaskCompletionSource?.SetResult(_isMultiChoice ? null : new int[] { -1 });
 
             return base.OnBackgroundClicked();
         }
@@ -253,13 +249,9 @@ namespace XF.Material.Forms.UI.Dialogs
         {
             base.OnDisappearing();
 
-            if (_radioButtonGroup?.Choices != null && _radioButtonGroup.Choices.Count > 0)
+            if (_controlGroup?.Choices != null && _controlGroup.Choices.Count > 0)
             {
-                _radioButtonGroup.SelectedIndexChanged -= this.DialogActionList_SelectedIndexChanged;
-            }
-            else if (_checkboxGroup?.Choices != null && _checkboxGroup.Choices.Count > 0)
-            {
-                _checkboxGroup.SelectedIndicesChanged -= this.CheckboxGroup_SelectedIndicesChanged;
+                _controlGroup.SelectedIndicesChanged -= this.CheckboxGroup_SelectedIndicesChanged;
             }
 
             PositiveButton.Clicked -= this.PositiveButton_Clicked;
@@ -314,25 +306,19 @@ namespace XF.Material.Forms.UI.Dialogs
             Container.Margin = _preferredConfig.Margin == default ? Material.GetResource<Thickness>("Material.Dialog.Margin") : _preferredConfig.Margin;
         }
 
-        private void DialogActionList_SelectedIndexChanged(object sender, SelectedIndexChangedEventArgs e)
-        {
-            Debug.WriteLine($"DialogActionList_SelectedIndexChanged: {e.Index}");
-            PositiveButton.IsEnabled = e.Index >= 0;
-        }
-
         private async void NegativeButton_Clicked(object sender, EventArgs e)
         {
             await this.DismissAsync();
-            this.InputTaskCompletionSource.SetResult(_isMultiChoice ? null : -1 as object);
-            _checkboxGroup?.SelectedIndices.Clear();
+            this.InputTaskCompletionSource.SetResult(_isMultiChoice ? null : new int[] { -1 });
+            _controlGroup?.SelectedIndices.Clear();
         }
 
         private async void PositiveButton_Clicked(object sender, EventArgs e)
         {
             await this.DismissAsync();
-            var result = (_radioButtonGroup?.SelectedIndex) ?? _checkboxGroup?.SelectedIndices.ToArray() as object;
+            var result = _controlGroup?.SelectedIndices.ToArray() as object;
             this.InputTaskCompletionSource.SetResult(result);
-            _checkboxGroup?.SelectedIndices.Clear();
+            _controlGroup?.SelectedIndices.Clear();
         }
     }
 }

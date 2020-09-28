@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -7,6 +8,7 @@ using Xamarin.Forms.Xaml;
 namespace XF.Material.Forms.UI
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
+    [DesignTimeVisible(true)]
     public partial class MaterialChip : ContentView
     {
         public static readonly BindableProperty ActionImageProperty = BindableProperty.Create(nameof(ActionImage), typeof(ImageSource), typeof(MaterialChip), default(ImageSource));

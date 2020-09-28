@@ -98,7 +98,7 @@ namespace XF.Material.Forms.UI.Dialogs
         /// <param name="dismissiveText">The text of the dismissive button</param>
         /// <param name="configuration">The style of the confirmation dialog.</param>
         /// <exception cref="ArgumentNullException" />
-        Task<int> SelectChoiceAsync(string title, IList choices, string choiceBindingName = null, string confirmingText = "Ok", string dismissiveText = "Cancel", MaterialConfirmationDialogConfiguration configuration = null);
+        Task<int?> SelectChoiceAsync(string title, IList choices, string choiceBindingName = null, string confirmingText = "Ok", string dismissiveText = "Cancel", MaterialConfirmationDialogConfiguration configuration = null);
 
         /// <summary>
         /// Shows a confirmation dialog that allows the user to select one of the listed choices. Returns the index of the selected choice. If none was selected, returns -1.
@@ -111,7 +111,7 @@ namespace XF.Material.Forms.UI.Dialogs
         /// <param name="configuration">The style of the confirmation dialog.</param>
         /// <exception cref="ArgumentNullException" />
         /// <exception cref="IndexOutOfRangeException" />
-        Task<int> SelectChoiceAsync(string title, IList choices, int selectedIndex, string choiceBindingName = null, string confirmingText = "Ok", string dismissiveText = "Cancel", MaterialConfirmationDialogConfiguration configuration = null);
+        Task<int?> SelectChoiceAsync(string title, IList choices, int selectedIndex, string choiceBindingName = null, string confirmingText = "Ok", string dismissiveText = "Cancel", MaterialConfirmationDialogConfiguration configuration = null);
 
         /// <summary>
         /// Shows a confirmation dialog that allows the user to select any of the listed choices. Returns the indices of the selected choices. If none was selected, returns an empty array.

@@ -15,10 +15,10 @@ namespace XF.Material.Forms.UI
             HorizontalOptions = LayoutOptions.FillAndExpand,
             IsSpellCheckEnabled = false,
             IsTextPredictionEnabled = false,
-            TextColor = Color.FromHex("#D0000000"),
             VerticalOptions = LayoutOptions.FillAndExpand
         })
         {
+	        base.TextColor = Color.FromHex("#D0000000");
         }
 
         /// <inheritdoc />

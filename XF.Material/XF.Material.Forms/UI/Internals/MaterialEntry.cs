@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.ComponentModel;
+using Xamarin.Forms;
 
 namespace XF.Material.Forms.UI.Internals
 {
@@ -6,15 +7,12 @@ namespace XF.Material.Forms.UI.Internals
     /// <summary>
     /// Used for rendering the <see cref="T:Xamarin.Forms.Entry" /> control in <see cref="T:XF.Material.Forms.UI.MaterialTextField" />.
     /// </summary>
+    [DesignTimeVisible(true)]
     public class MaterialEntry : Entry
     {
         public static readonly BindableProperty TintColorProperty = BindableProperty.Create(nameof(TintColor), typeof(Color), typeof(MaterialEntry), Material.Color.Secondary);
 
         public static readonly BindableProperty IsNumericKeyboardProperty = BindableProperty.Create(nameof(IsNumericKeyboard), typeof(bool), typeof(MaterialEntry), false);
-
-        internal MaterialEntry()
-        {
-        }
 
         public bool IsNumericKeyboard
         {

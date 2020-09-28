@@ -1,8 +1,10 @@
-﻿using Xamarin.Forms;
+﻿using System.ComponentModel;
+using Xamarin.Forms;
 using XF.Material.Forms.Resources;
 
 namespace XF.Material.Forms.UI
 {
+    [DesignTimeVisible(true)]
     public class MaterialCircularLoadingView : Lottie.Forms.AnimationView
     {
         public static readonly BindableProperty TintColorProperty = BindableProperty.Create(nameof(TintColor), typeof(Color), typeof(MaterialCircularLoadingView), Material.Color.Secondary);

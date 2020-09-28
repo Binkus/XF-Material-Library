@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -9,6 +10,7 @@ namespace XF.Material.Forms.UI
     /// <summary>
     /// A control that allow users to take actions, and make choices, with a single tap.
     /// </summary>
+    [DesignTimeVisible(true)]
     public class MaterialButton : Button, IMaterialButtonControl
     {
         public const string MaterialButtonColorChanged = "BackgroundColorChanged";

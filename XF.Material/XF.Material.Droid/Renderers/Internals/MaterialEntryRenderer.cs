@@ -2,10 +2,10 @@
 using Android.Content;
 using Android.Graphics.Drawables;
 using Android.Runtime;
-using Android.Support.V4.Content;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
+using AndroidX.Core.Content;
 using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;

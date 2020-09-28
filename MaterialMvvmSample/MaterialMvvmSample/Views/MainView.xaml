@@ -12,9 +12,24 @@
                     material:MaterialNavigationPage.AppBarTitleTextAlignment="Start"
                     material:MaterialNavigationPage.AppBarTitleTextFontFamily="{StaticResource FontFamily.RobotoMedium}"
                     material:MaterialNavigationPage.AppBarTitleTextFontSize="14"
-                    material:MaterialNavigationPage.StatusBarColor="#1B3147">
+                    material:MaterialNavigationPage.StatusBarColor="#1B3147"
+                    material:MaterialNavigationPage.AppBarTitleTextColor="Yellow">
     <ScrollView>	 
         <StackLayout Padding="16"	                 HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+
+            <material:MaterialTextField InputType="Choice"
+                                        TextFontSize="20"
+                                                        
+                                                     Choices="{Binding ListActions}"
+                                                     LeadingIcon="ic_overflow" />
+            <material:MaterialTextField InputType="MultiChoice"	
+                                                     Choices="{Binding ListActions}" 
+                                                     TrailingIcon="ic_overflow" />	
+            <material:MaterialTimeField Text="{Binding SomeProp}" InputType="Time" Placeholder="Place time field" AlwaysShowUnderline="True" UnderlineColor="Yellow"/>
+            <material:MaterialDateField InputType="Date" Placeholder="Place date field" AlwaysShowUnderline="True" UnderlineColor="Yellow"/>
+            <material:MaterialTextField HeightRequest="60" AlwaysShowUnderline="True" Placeholder="Place large field" InputType="Text" UnderlineColor="Yellow" />
+            <material:MaterialTextField AlwaysShowUnderline="True" Placeholder="Place field" InputType="Text" UnderlineColor="Yellow" />
+            <material:MaterialTextArea AlwaysShowUnderline="True" Placeholder="Place" InputType="MultiLineText" UnderlineColor="Yellow" />
             <material:MaterialButton                 
                                      Elevation="6"	
                                      HorizontalOptions="Center"	
